@@ -5,78 +5,52 @@
  */
 package servlets;
 
-import entity.Author;
-import entity.Book;
+import entity.Reader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.EJB;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import session.AuthorFacade;
-import session.BookFacade;
+import session.ReaderFacade;
 
 /**
  *
  * @author pupil
  */
-@WebServlet(name = "BookServlet", urlPatterns = {     
-    "/index",
-    "/newBook",
-    "/createBook",
-    "/listBooks"
+@WebServlet(name = "ReaderServlet", urlPatterns = {
+    "/loginForm", 
+    "/login",
+    "/logout",
 })
-public class BookServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
     
-    @EJB private AuthorFacade authorFacade;
-    @EJB private BookFacade bookFacade;
+    @EJB private ReaderFacade UserFacade;
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");//чтобы сервлет работал с UTF-8 кодировкой
+        request.setCharacterEncoding("UTF-8");
         String path = request.getServletPath();
         switch (path) {
-            case "/index":
-                request.setAttribute("listBooks", bookFacade.findAll());
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
+            case "/loginForm":
+                request.getRequestDispatcher("/loginForm.jsp").forward(request, response);
                 break;
-            case "/newBook":
-                request.setAttribute("listAuthors",authorFacade.findAll());
-                request.getRequestDispatcher("/WEB-INF/book/createBook.jsp").forward(request, response);
-                break;
+            case "/login":
                 
-            case "/createBook":
-                String title = request.getParameter("title");
-                String[] authors = request.getParameterValues("authors");
-                List<Author> listBookAuthors = new ArrayList<>();
-                for (int i = 0; i < authors.length; i++) {
-                    listBookAuthors.add(authorFacade.find(Long.parseLong(authors[i])));
-                }
-                Book book = new Book();
-                book.setTitle(title);
-                book.setAuthors(listBookAuthors);
-                bookFacade.create(book);
-                for (int i = 0; i < listBookAuthors.size(); i++) {
-                    Author a = listBookAuthors.get(i);
-                    a.getBooks().add(book);
-                    authorFacade.edit(a);
+                break;
+            case "/logout":
+                session = request.getSession(False);
+                if(session != null){
+                    session.invalidate();
+                    request.setAttribute("info", "Вы вышли.");
                 }
                 
-                request.setAttribute("listBooks", bookFacade.findAll());
-                request.getRequestDispatcher("/WEB-INF/book/listBooks.jsp").forward(request, response);
+                request.sendRedirect("index.jsp").forward(request, response);
                 break;
-                                
-            case "/listBooks":
-                request.setAttribute("listBooks", bookFacade.findAll());
-                request.getRequestDispatcher("/WEB-INF/book/listBooks.jsp").forward(request, response);
-                break;
-
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

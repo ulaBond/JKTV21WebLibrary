@@ -45,13 +45,19 @@
         </li>
         
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/about.jsp">О нас</a>
-        </li>
-      </ul>
+         
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-light" type="submit">Search</button>
       </form>
+      <ul>
+        <li>
+            <a class="nav-link active" aria-current="login" href="/about.jsp">О нас</a>
+        </li>
+        <li>
+            <a class="nav-link active" aria-current="login" href="/about.jsp">О нас</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
