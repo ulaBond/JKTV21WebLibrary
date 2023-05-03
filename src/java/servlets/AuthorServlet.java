@@ -6,6 +6,7 @@
 package servlets;
 
 import entity.Author;
+import entity.User;
 import java.io.IOException;
 import javax.ejb.EJB;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import session.AuthorFacade;
 import tools.BirthdayConverter;
 
@@ -24,8 +26,6 @@ import tools.BirthdayConverter;
 @WebServlet(name = "AuthorServlet", urlPatterns = {
     "/newAuthor",
     "/createAuthor",
-    "/listAuthors",
-    "/proba",
 })
 public class AuthorServlet extends HttpServlet {
 
@@ -36,6 +36,25 @@ public class AuthorServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            request.setAttribute("info", "У вас нет прав. Авторизуйтесь");
+            request.getRequestDispatcher("/loginForm.jsp").forward(request, response);
+            return;
+        }
+        User authUser = (User) session.getAttribute("authUser");
+        if(authUser == null){
+            request.setAttribute("info", "У вас нет прав. Авторизуйтесь");
+            request.getRequestDispatcher("/loginForm.jsp").forward(request, response);
+            return;
+        }
+        if(!authUser.getRoles().contains(LoginServlet.Roles.MANAGER.toString())){
+            request.setAttribute("info", "У вас нет прав. Авторизуйтесь");
+            request.getRequestDispatcher("/loginForm.jsp").forward(request, response);
+            return;
+        }
+        
         String path = request.getServletPath();
         switch (path) {
             case "/newAuthor":

@@ -25,7 +25,7 @@ import session.ReaderFacade;
     "/createReader",
     "/listReaders",
 })
-public class ReaderServlet extends HttpServlet {
+public class UserServlet extends HttpServlet {
     
     @EJB private ReaderFacade readerFacade;
    

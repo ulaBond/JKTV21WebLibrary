@@ -52,10 +52,7 @@
       </form>
       <ul>
         <li>
-            <a class="nav-link active" aria-current="login" href="/about.jsp">О нас</a>
-        </li>
-        <li>
-            <a class="nav-link active" aria-current="login" href="/about.jsp">О нас</a>
+            <a class="nav-link active" aria-current="login" href="/about">О нас</a>
         </li>
       </ul>
     </div>

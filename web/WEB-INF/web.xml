@@ -9,10 +9,10 @@
         <jsp-property-group>
             <display-name>template1</display-name>
             <url-pattern>/index.jsp</url-pattern>
-            <url-pattern>/WEB-INF/history/*</url-pattern>
-            <url-pattern>/WEB-INF/book/*</url-pattern>
-            <url-pattern>/WEB-INF/author/*</url-pattern>
-            <url-pattern>/WEB-INF/reader/*</url-pattern>
+            <url-pattern>/WEB-INF/user/*</url-pattern>
+            <url-pattern>/WEB-INF/manager/*</url-pattern>
+            <url-pattern>/WEB-INF/admin/*</url-pattern>
+            <url-pattern>/WEB-INF/guest/*</url-pattern>
             <page-encoding>UTF-8</page-encoding>
             <include-prelude>/WEB-INF/jspf/header.jsp</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jsp</include-coda>
